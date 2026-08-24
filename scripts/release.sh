@@ -76,6 +76,16 @@ fi
 
 VERSION_BARE="${VERSION#v}"
 
+# Warn on major bump so author updates formula compatibility
+NEW_MAJOR="${VERSION_BARE%%.*}"
+OLD_MAJOR="${CURRENT_VERSION%%.*}"
+if [ "$NEW_MAJOR" -gt "$OLD_MAJOR" ] 2>/dev/null; then
+    echo "Major release detected. Before tagging, update your Homebrew formula"
+    echo "to constrain the devflow dependency to the new major version."
+    echo "  depends_on \"captainwonderwall/devflow/devflow\" # ensure v$NEW_MAJOR compatibility"
+    echo ""
+fi
+
 # ── Guard: tag must not already exist ─────────────────────────────────────────
 if git rev-parse "refs/tags/$VERSION" >/dev/null 2>&1; then
     echo "ERROR: tag $VERSION already exists. Delete it first: git tag -d $VERSION" >&2

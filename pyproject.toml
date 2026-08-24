@@ -5,7 +5,7 @@ build-backend = "setuptools.backends.legacy:build"
 [project]
 name = "default-format"
 version = "0.1.1"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 
 [project.optional-dependencies]
 dev = [
