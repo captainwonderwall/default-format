@@ -1,4 +1,4 @@
-from devflow_sdk.plugin_base import PluginBase
+from devflow_sdk.draft_pr_plugin import DraftPrPlugin
 
 _CHANGE_TYPES = [
     "New feature",
@@ -10,7 +10,7 @@ _CHANGE_TYPES = [
 ]
 
 
-class DefaultPlugin(PluginBase):
+class DefaultPlugin(DraftPrPlugin):
     name = "Default Format"
 
     def get_questions(self, data: dict) -> list[dict]:
