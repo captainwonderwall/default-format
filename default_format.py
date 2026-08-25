@@ -24,6 +24,7 @@ class DefaultPlugin(DraftPrPlugin):
         return []
 
     def build_prompt(self, data: dict, user_inputs: dict) -> str:
+        # Return an AI prompt string. draft-pr passes this to run_ai_prompt.
         # data keys: git_log, diff_stat, changed_files, branch, is_fix, ...
         # user_inputs keys: jira_ticket, github_issue, issue_type, customer_visible, ...
         # The JSON keys you ask for here are what build_body receives in ai_result.
