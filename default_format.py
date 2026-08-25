@@ -24,6 +24,9 @@ class DefaultPlugin(DraftPrPlugin):
         return []
 
     def build_prompt(self, data: dict, user_inputs: dict) -> str:
+        # data keys: git_log, diff_stat, changed_files, branch, is_fix, ...
+        # user_inputs keys: jira_ticket, github_issue, issue_type, customer_visible, ...
+        # The JSON keys you ask for here are what build_body receives in ai_result.
         return (
             "Analyze the following git log and diff summary, then output ONLY a JSON object"
             " with these exact keys:\n"
@@ -42,6 +45,7 @@ class DefaultPlugin(DraftPrPlugin):
         )
 
     def build_body(self, ai_result: dict, user_inputs: dict) -> str:
+        # Render the PR body markdown from ai_result.
         change_type = ai_result.get("change_type", "")
         type_checkboxes = "\n".join(
             f"- [{'x' if ct == change_type else ' '}] {ct}" for ct in _CHANGE_TYPES
