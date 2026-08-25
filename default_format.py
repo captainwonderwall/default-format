@@ -1,3 +1,10 @@
+import glob as _glob, os as _os, sys as _sys
+_vendor = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "vendor")
+for _whl in _glob.glob(_os.path.join(_vendor, "*.whl")):
+    if _whl not in _sys.path:
+        _sys.path.insert(0, _whl)
+del _glob, _os, _sys, _vendor
+
 from devflow_sdk.draft_pr_plugin import DraftPrPlugin
 
 _CHANGE_TYPES = [
@@ -20,6 +27,7 @@ class DefaultPlugin(DraftPrPlugin):
         return (
             "Analyze the following git log and diff summary, then output ONLY a JSON object"
             " with these exact keys:\n"
+            '  "title": short imperative PR title (e.g. "Fix login timeout"),\n'
             '  "description": one or two sentences summarizing what this PR does and why,\n'
             '  "change_type": exactly one of '
             + str(_CHANGE_TYPES)
@@ -52,8 +60,11 @@ class DefaultPlugin(DraftPrPlugin):
 
         related_section = related if related else "<!-- Link related tickets or issues. Use \"Closes #123\" to auto-close. -->"
 
+        title = ai_result.get("title", "")
+        title_line = f"# {title}\n\n" if title else ""
+
         return f"""\
-## Description
+{title_line}## Description
 
 {ai_result.get("description", "")}
 

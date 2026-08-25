@@ -14,22 +14,43 @@ bash install.sh
 bash uninstall.sh
 ```
 
-## Develop
+## Prerequisites
+
+Install once per machine:
 
 ```bash
-# Install dev dependencies (or point PYTHONPATH at a local devflow-sdk clone)
-pip install devflow-sdk pytest
-
-# Run tests — no AI required
-PYTHONPATH=. pytest tests/
+brew install uv just
 ```
+
+## Develop
+
+Install dev dependencies (one-time per repo):
+
+```bash
+just dev
+```
+
+Run tests:
+
+```bash
+just test
+```
+
+If your plugin has runtime extras beyond devflow-sdk, add them to
+`[project.dependencies]` in `pyproject.toml` and run:
+
+```bash
+just vendor
+```
+
+This downloads the wheels into `vendor/` — commit the result.
 
 ## Publish a release
 
 1. Fill in `build_prompt` and `build_body` in `default_format.py`.
-2. Run tests: `PYTHONPATH=. pytest tests/`.
+2. Run tests: `just test`.
 3. Commit your changes, then run:
    ```bash
    bash scripts/release.sh
    ```
-   This bumps the version, tags, and pushes. GitHub Actions creates a release and attaches `default_format.py` as an asset.
+   This bumps the version, tags, and pushes. GitHub Actions runs tests and creates a GitHub release (the Homebrew formula downloads the source tarball directly from the tag).

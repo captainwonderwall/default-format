@@ -9,6 +9,9 @@ class DevflowPluginDefaultFormat < Formula
 
   def install
     lib.install "default_format.py"
+    vendor = lib/"vendor"
+    vendor.mkpath
+    Dir["vendor/*.whl"].each { |whl| vendor.install whl }
   end
 
   def post_install
