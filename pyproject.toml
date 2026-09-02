@@ -16,7 +16,7 @@ py-modules = ["default_format"]
 
 [project.optional-dependencies]
 dev = [
-    "devflow-sdk @ git+https://github.com/captainwonderwall/devflow-platform@devflow-sdk/v1.0.0#subdirectory=devflow-sdk",
+    "devflow-sdk @ git+https://github.com/captainwonderwall/devflow-platform@devflow-sdk/v1.2.10#subdirectory=devflow-sdk",
     "pytest>=8",
     "build>=1.0",
 ]
